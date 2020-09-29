@@ -21,6 +21,7 @@ window.addEventListener('load', function () {
 			e.preventDefault();
 			var request = new XMLHttpRequest();
 			var data = new FormData();
+			var link = document.createElement('a');
 			data.append('action', 'export_posts');
 			data.append('post_type', typenow);
 			swal({
@@ -32,21 +33,21 @@ window.addEventListener('load', function () {
 			request.onload = function () {
 				if (request.readyState = 4) {
 					if (request.status == 200) {
-						var response = JSON.parse(request.responseText);
+						var data = ['\ufeff' + request.responseText];
+						var fileObj = new Blob(data, { type: 'text/csv;charset=utf-8;' });
+						var fileurl = URL.createObjectURL(fileObj);
+						link.href = fileurl;
+						link.download = typenow + '.csv';
+						document.body.appendChild(link);
+						link.click();
+						document.body.removeChild(link);
+						//Response Message
 						swal({
 							title: "Good job!",
-							text: response.message,
+							text: 'File has been exported successfully!',
 							icon: "success",
 							button: false,
-							content: {
-								element: "a",
-								attributes: {
-									href: response.path,
-									text: 'Download CSV',
-									className: 'swal-button swal_new',
-									target: '_blank',
-								},
-							},
+							timer: 3000
 						});
 					}
 				}

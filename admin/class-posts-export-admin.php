@@ -103,9 +103,23 @@ class Posts_Export_Admin
     
     public function export_posts()
     {
-        $fileName = "data.csv";
-        $file = fopen(__DIR__.'/'.$fileName, "w");
-        fputcsv($file, array('ID','Title','Slug','Description','Featured Image'));
+        $filename = "data.csv";
+        
+        header("Content-type: text/csv");
+        header("Content-Disposition: attachment; filename=$filename");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        $output = fopen('php://output', 'w');
+
+        fputcsv($output, array(
+            'ID',
+            'Title',
+            'Slug',
+            'Description',
+            'Featured Image'
+        ));
+
         $posts = new WP_Query(
             array(
                 'post_status'=>'publish',
@@ -121,11 +135,7 @@ class Posts_Export_Admin
                 $result->post_content,
                 wp_get_attachment_url(get_post_thumbnail_id($result->ID)),
             );
-            fputcsv($file, $data);
+            fputcsv($output, $data);
         }
-        wp_send_json(array(
-            'message'=>'Your CSV Exported successfully',
-            'path'=>plugin_dir_url(__DIR__).'admin/data.csv'
-        ));
     }
 }
