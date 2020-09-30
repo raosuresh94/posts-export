@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Posts Export
  * Plugin URI:        https://github.com/raosuresh94/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Plugin have functionality to export the post in CSV format.
  * Version:           1.0.0
  * Author:            Suresh
  * Author URI:        https://github.com/raosuresh94/
@@ -26,8 +26,8 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
+if (! defined('WPINC')) {
+    die;
 }
 
 /**
@@ -35,34 +35,36 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'POSTS_EXPORT_VERSION', '1.0.0' );
+define('POSTS_EXPORT_VERSION', '1.0.0');
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-posts-export-activator.php
  */
-function activate_posts_export() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-posts-export-activator.php';
-	Posts_Export_Activator::activate();
+function activate_posts_export()
+{
+    require_once plugin_dir_path(__FILE__) . 'includes/class-posts-export-activator.php';
+    Posts_Export_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-posts-export-deactivator.php
  */
-function deactivate_posts_export() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-posts-export-deactivator.php';
-	Posts_Export_Deactivator::deactivate();
+function deactivate_posts_export()
+{
+    require_once plugin_dir_path(__FILE__) . 'includes/class-posts-export-deactivator.php';
+    Posts_Export_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_posts_export' );
-register_deactivation_hook( __FILE__, 'deactivate_posts_export' );
+register_activation_hook(__FILE__, 'activate_posts_export');
+register_deactivation_hook(__FILE__, 'deactivate_posts_export');
 
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-posts-export.php';
+require plugin_dir_path(__FILE__) . 'includes/class-posts-export.php';
 
 /**
  * Begins execution of the plugin.
@@ -73,10 +75,9 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-posts-export.php';
  *
  * @since    1.0.0
  */
-function run_posts_export() {
-
-	$plugin = new Posts_Export();
-	$plugin->run();
-
+function run_posts_export()
+{
+    $plugin = new Posts_Export();
+    $plugin->run();
 }
 run_posts_export();
